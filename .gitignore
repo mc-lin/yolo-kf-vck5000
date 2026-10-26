@@ -1,1 +1,17 @@
+# model downloads (fetched by model/download_model.sh)
 model/downloads/
+
+# datasets (fetched by script, not committed)
+data/MOT17/
+*.mp4
+
+# Vitis / Vitis-AI build artifacts
+_x/
+.Xil/
+build/
+*.log
+*.jou
+
+# Python
+__pycache__/
+*.pyc
