@@ -1,0 +1,28 @@
+{
+  "images": 1,
+  "golden_boxes": 1,
+  "dpu_boxes": 1,
+  "matched": 1,
+  "mean_iou": 0.952089601440196,
+  "recall": 1.0,
+  "precision": 1.0,
+  "mean_score_change": -0.36355146562957763,
+  "map50_vs_float": 1.0,
+  "map50_95_vs_float": 1.0,
+  "pass": true,
+  "thresholds": {
+    "iou_thr": 0.5,
+    "min_iou": 0.75,
+    "min_recall": 0.75
+  },
+  "per_image": {
+    "dog.jpg": {
+      "matched": 1,
+      "missed": 0,
+      "extra": 0,
+      "ious": [
+        0.9521
+      ]
+    }
+  }
+}

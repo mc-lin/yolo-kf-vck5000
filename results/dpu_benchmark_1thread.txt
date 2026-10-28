@@ -1,0 +1,1 @@
+xdputil benchmark, 1 thread, yolox_nano_pt 4PE: FPS=479.0 (inference only, dummy input)
