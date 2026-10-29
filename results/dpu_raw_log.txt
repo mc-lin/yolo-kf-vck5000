@@ -1,13 +1,13 @@
 WARNING: Logging before InitGoogleLogging() is written to STDERR
-I1028 16:51:02.352502   485 demo.hpp:1276] batch: 0     image: dog.jpg
-I1028 16:51:02.352615   485 process_result.hpp:32] RESULT: 16	108.04	78.73	440.04	454.93	0.527926
+I1029 09:25:40.188900  9377 demo.hpp:1276] batch: 0     image: dog.jpg
+I1029 09:25:40.188957  9377 process_result.hpp:32] RESULT: 16	108.04	78.73	440.04	454.93	0.527926
 
-I1028 16:51:02.358558   485 demo.hpp:1276] batch: 1     image: dog.jpg
-I1028 16:51:02.358562   485 process_result.hpp:32] RESULT: 16	108.04	78.73	440.04	454.93	0.527926
+I1029 09:25:40.193123  9377 demo.hpp:1276] batch: 1     image: dog.jpg
+I1029 09:25:40.193126  9377 process_result.hpp:32] RESULT: 16	108.04	78.73	440.04	454.93	0.527926
 
-I1028 16:51:02.363550   485 demo.hpp:1276] batch: 2     image: dog.jpg
-I1028 16:51:02.363580   485 process_result.hpp:32] RESULT: 16	108.04	78.73	440.04	454.93	0.527926
+I1029 09:25:40.196775  9377 demo.hpp:1276] batch: 2     image: dog.jpg
+I1029 09:25:40.196777  9377 process_result.hpp:32] RESULT: 16	108.04	78.73	440.04	454.93	0.527926
 
-I1028 16:51:02.371806   485 demo.hpp:1276] batch: 3     image: dog.jpg
-I1028 16:51:02.371824   485 process_result.hpp:32] RESULT: 16	108.04	78.73	440.04	454.93	0.527926
+I1029 09:25:40.200253  9377 demo.hpp:1276] batch: 3     image: dog.jpg
+I1029 09:25:40.200255  9377 process_result.hpp:32] RESULT: 16	108.04	78.73	440.04	454.93	0.527926
 

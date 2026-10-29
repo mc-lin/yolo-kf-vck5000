@@ -1,0 +1,19 @@
+
+================ SUMMARY (DPU INT8 vs float FP32 golden) ================
+images                 : 40
+boxes golden / DPU     : 363 / 332   matched: 266 (IoU >= 0.5)
+mean IoU (matched)     : 0.8375
+recall / precision     : 0.7328 / 0.8012
+mean score change      : -0.0453  (DPU - float, matched boxes)
+mAP@0.5   vs float     : 0.1047
+mAP@.5:.95 vs float    : 0.0722
+per-class AP@0.5       :
+   person       golden  352  AP@0.5 0.733
+   handbag      golden    4  AP@0.5 0.000
+   bench        golden    3  AP@0.5 0.000
+   skateboard   golden    1  AP@0.5 0.000
+   backpack     golden    1  AP@0.5 0.000
+   umbrella     golden    1  AP@0.5 0.000
+   car          golden    1  AP@0.5 0.000
+RESULT                 : FAIL (needs mean IoU >= 0.75 and recall >= 0.75)
+report saved           : results/compare_report_all.json

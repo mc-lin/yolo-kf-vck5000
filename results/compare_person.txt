@@ -1,0 +1,14 @@
+Evaluating classes: ['person']
+
+================ SUMMARY (DPU INT8 vs float FP32 golden) ================
+images                 : 40
+boxes golden / DPU     : 352 / 329   matched: 266 (IoU >= 0.5)
+mean IoU (matched)     : 0.8375
+recall / precision     : 0.7557 / 0.8085
+mean score change      : -0.0453  (DPU - float, matched boxes)
+mAP@0.5   vs float     : 0.7330
+mAP@.5:.95 vs float    : 0.5057
+per-class AP@0.5       :
+   person       golden  352  AP@0.5 0.733
+RESULT                 : PASS (needs mean IoU >= 0.75 and recall >= 0.75)
+report saved           : results/compare_report_person.json

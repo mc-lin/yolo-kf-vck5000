@@ -15,3 +15,6 @@ build/
 # Python
 __pycache__/
 *.pyc
+data/mot17_subset/
+results/dpu_vis/
+results/track_vis/

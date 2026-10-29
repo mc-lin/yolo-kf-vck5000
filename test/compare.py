@@ -100,6 +100,7 @@ def main():
     ap.add_argument("--min-recall", type=float, default=0.75, help="PASS needs recall >= this")
     ap.add_argument("--report", default=os.path.join(REPO, "results", "compare_report.json"))
     ap.add_argument("--quiet", action="store_true", help="hide per-image details")
+    ap.add_argument("--classes", default="", help="comma-separated class names to evaluate, e.g. person (default: all)")
     a = ap.parse_args()
 
     golden = json.load(open(a.golden))
@@ -110,6 +111,11 @@ def main():
         print(f"WARNING: images in only one file (skipped): {skipped}")
     golden = {k: golden[k] for k in images}
     test = {k: test[k] for k in images}
+    if a.classes:
+        keep = {c.strip() for c in a.classes.split(",")}
+        golden = {k: [d for d in v if d["name"] in keep] for k, v in golden.items()}
+        test = {k: [d for d in v if d["name"] in keep] for k, v in test.items()}
+        print(f"Evaluating classes: {sorted(keep)}")
 
     all_ious, all_dscore, n_gold, n_test, n_match = [], [], 0, 0, 0
     per_image = {}
@@ -146,6 +152,10 @@ def main():
     print(f"mean score change      : {mean_dscore:+.4f}  (DPU - float, matched boxes)")
     print(f"mAP@0.5   vs float     : {map50:.4f}")
     print(f"mAP@.5:.95 vs float    : {map5095:.4f}")
+    from collections import Counter
+    print("per-class AP@0.5       :")
+    for (c, n), k in Counter((d["class"], d["name"]) for v in golden.values() for d in v).most_common():
+        print(f"   {n:<12} golden {k:4d}  AP@0.5 {average_precision(golden, test, c, 0.5):.3f}")
     print(f"RESULT                 : {'PASS' if passed else 'FAIL'} "
           f"(needs mean IoU >= {a.min_iou} and recall >= {a.min_recall})")
 
