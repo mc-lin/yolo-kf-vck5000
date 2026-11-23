@@ -18,3 +18,7 @@ __pycache__/
 data/mot17_subset/
 results/dpu_vis/
 results/track_vis/
+
+# generated outputs: recreated by running the pipeline, not submitted
+results/*
+!results/.gitkeep
