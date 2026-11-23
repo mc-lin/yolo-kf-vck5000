@@ -11,6 +11,7 @@ Usage (container, conda env vitis-ai-pytorch):
 """
 import argparse, json, os, sys, time
 import torch
+import cv2
 
 REPO = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 PKG  = os.path.join(REPO, "model", "downloads", "pt_yolox-nano_coco_416_416_1G_3.0")
@@ -45,8 +46,11 @@ def main():
 
     results, times = {}, []
     for path in a.images:
+        img = cv2.imread(path)                 # load outside the timer (matches with the DPU tool)
         t0 = time.perf_counter()
-        outputs, info = pred.inference(path)
+        outputs, info = pred.inference(img)
+
+
         times.append(time.perf_counter() - t0)
 
         dets, r = [], info["ratio"]
@@ -69,6 +73,7 @@ def main():
 
     avg_ms = 1000 * sum(times) / len(times)
     print(f"\nSaved {a.out}")
+    print(f"torch CPU threads: {torch.get_num_threads()}")
     print(f"CPU FP32: {len(times)} images, avg {avg_ms:.2f} ms/image "
           f"(end-to-end incl. pre/post, after {a.warmup} warm-up runs)")
 
