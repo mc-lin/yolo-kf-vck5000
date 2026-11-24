@@ -55,7 +55,7 @@ def parse(log, results):
                 "score": score,
                 "box": [x1, y1, x2, y2],
             })
-
+ 
 
 def main():
     ap = argparse.ArgumentParser()

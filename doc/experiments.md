@@ -37,3 +37,14 @@ Eval: test/eval_tracking.py (motmetrics 1.4.0), GT flag==1 & class==1, IoU ≥ 0
 
 FN dominates MOTA (40% of GT boxes) → mostly detector misses. IDF1 < MOTA and ~10 IDSW per person
 → identity fragmentation in the tracker.
+
+
+| Run | MOTA | IDF1 | IDSW | FP | FN | Tracks created |
+| --- | --- | --- | --- | --- | --- | --- |
+| Greedy (baseline) | 40.2% | 38.7% | 265 | 770 | 2150 | 203 |
+| Hungarian | 40.0% | 38.6% | 265 | 791 | 2139 | 183 |
+| Hungarian + iou-thr 0.2 | 39.9% | 35.7% | 278 | 802 | 2119 | 164 |
+
+Hungarian matching created fewer tracks (183 vs 203), so it did avoid some unnecessary new IDs. But ID switches stayed at exactly 265, and MOTA and IDF1 moved by only 0.1–0.2 points. That tells you something specific: the situations where greedy and Hungarian disagree are rare in this video. Remember the example: they differ only when several tracks and detections compete with similar overlaps. Most frames don't look like that.
+
+Tracker-side changes (three settings and the assignment algorithm) changed MOTA by at most 0.7 points on MOT17-09, except min-hits 1, which lowered it by 4.3. The limiting factors are detection recall (about 60% of ground-truth boxes) and position-only association. Improving tracking further requires better detections, or appearance features (as in DeepSORT), rather than tuning.

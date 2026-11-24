@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# One-command testbench for Project Update 1.
+# One-command testbench for Project Update 2.
 # Run INSIDE the Vitis-AI container after README section 6.3 (setup.sh sourced,
 # conda env vitis-ai-pytorch active, setup/install_float_deps.sh run).
 #
@@ -64,6 +64,9 @@ check python test/compare.py --quiet --classes person \
 # ---- Layer 2: tracking ----
 step "Layer 2: KF tracking on DPU detections (525 frames)"
 check python src/run_tracker.py --vis-every 25
+
+step "Layer 2: tracking vs MOT17-09 ground truth (expected MOTA 40.2%, IDF1 38.7%)"
+check python test/eval_tracking.py
 
 echo
 if [ "$fail" = 0 ]; then echo "ALL STAGES PASSED"; else echo "SOME STAGES FAILED (see above)"; fi

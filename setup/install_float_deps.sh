@@ -4,4 +4,5 @@
 set -euo pipefail
 PKG="$(cd "$(dirname "$0")/.." && pwd)/model/downloads/pt_yolox-nano_coco_416_416_1G_3.0"
 pip install --user -r "$PKG/requirements.txt"
+pip install --user motmetrics==1.4.0          # for test/eval_tracking.py
 cd "$PKG/code" && pip install --user -v -e .
