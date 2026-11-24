@@ -42,7 +42,7 @@ report: [`doc/report_update2.md`](doc/report_update2.md).
 | `setup/docker_run_mount.patch` | Lets the Vitis-AI container see the project drive |
 | `setup/install_float_deps.sh` | Installs AMD's YOLOX code and `motmetrics` (each container session) |
 | `doc/report_update2.md` | Project Update 2 report |
-| `doc/experiments.md` | Experiment log |
+
 
 
 ## 3. One-time setup (host, outside the container)
