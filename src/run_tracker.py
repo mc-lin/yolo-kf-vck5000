@@ -36,11 +36,13 @@ def main():
     ap.add_argument("--iou-thr", type=float, default=0.3)
     ap.add_argument("--max-misses", type=int, default=15)
     ap.add_argument("--min-hits", type=int, default=3)
+    ap.add_argument("--match", choices=["greedy", "hungarian"], default="greedy")
     a = ap.parse_args()
 
     dets = json.load(open(a.dets))
     frames = sorted(dets, key=lambda n: int(os.path.splitext(n)[0]))
-    trk = Tracker(a.iou_thr, a.max_misses, a.min_hits)
+    trk = Tracker(a.iou_thr, a.max_misses, a.min_hits, a.match)
+    
     if a.vis_every:
         import cv2
         os.makedirs(a.vis_dir, exist_ok=True)

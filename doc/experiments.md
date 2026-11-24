@@ -25,3 +25,15 @@ With 4 threads: 1371 FPS. Four streams overlap the CPU-side work with the DPU wo
 | Throughput, 4 threads | 29.4 FPS | 1371 FPS | ≈ 47× |
 Latency improved about 5×, much less than the raw inference speedup, because each image waits for its batch and for the CPU-side steps. Throughput improved 20–47×, because batching and parallel streams keep the DPU busy. Both numbers are real; they measure different things, and the report should give both.
 the CPU was measured one image at a time, without batching. A batched CPU run might improve its throughput somewhat. That's worth a sentence, or a quick extra experiment if you have time.
+
+## Tracking vs MOT17-09 ground truth (baseline, Update 1 tracker settings)
+
+Settings: iou_thr 0.3, max_misses 15, min_hits 3, greedy matching; output = matched boxes only.
+Eval: test/eval_tracking.py (motmetrics 1.4.0), GT flag==1 & class==1, IoU ≥ 0.5.
+
+| MOTA | IDF1 | IDSW | FP | FN | Prcn | Rcll | MT/PT/ML | FM | MOTP (1−IoU) |
+|---|---|---|---|---|---|---|---|---|---|
+| 40.2% | 38.7% | 265 | 770 | 2150 | 80.5% | 59.6% | 8/14/4 | 185 | 0.234 |
+
+FN dominates MOTA (40% of GT boxes) → mostly detector misses. IDF1 < MOTA and ~10 IDSW per person
+→ identity fragmentation in the tracker.

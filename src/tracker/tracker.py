@@ -25,7 +25,8 @@ class Track:
 
 
 class Tracker:
-    def __init__(self, iou_thr=0.3, max_misses=15, min_hits=3):
+    def __init__(self, iou_thr=0.3, max_misses=15, min_hits=3, match="hungarian"):
+        self.match = match 
         self.iou_thr = iou_thr          # min IoU(prediction, detection) to match
         self.max_misses = max_misses    # delete a track after this many missed frames
         self.min_hits = min_hits        # report a track only after this many hits (filters one-off false boxes)
@@ -33,21 +34,38 @@ class Tracker:
         self.created, self.recoveries = 0, 0
         self.ever_confirmed = set()
 
+    def _match(self, preds, dets):
+        """Return (track_index, detection_index) pairs with IoU >= iou_thr."""
+        if not preds or not dets:
+            return []
+        M = [[iou(pb, d["box"]) for d in dets] for pb in preds]
+        if self.match == "hungarian":
+            import numpy as np
+            from scipy.optimize import linear_sum_assignment
+            rows, cols = linear_sum_assignment(1.0 - np.array(M))   # maximize total IoU
+            return [(r, c) for r, c in zip(rows, cols) if M[r][c] >= self.iou_thr]
+        # greedy: best single pair first
+        cand = sorted(((M[t][d], t, d) for t in range(len(preds)) for d in range(len(dets))
+                       if M[t][d] >= self.iou_thr), reverse=True)
+        used_t, used_d, out = set(), set(), []
+        for _, t, d in cand:
+            if t in used_t or d in used_d:
+                continue
+            used_t.add(t); used_d.add(d); out.append((t, d))
+        return out
+
     def step(self, dets, frame):
         # 1. PREDICT every track forward one frame
         preds = [t.kf.predict() for t in self.tracks]
 
-        # 2. MATCH: greedy, highest IoU pair first, each track/detection used at most once
-        cand = [(iou(pb, d["box"]), ti, di)
-                for ti, pb in enumerate(preds) for di, d in enumerate(dets)]
-        cand = sorted((c for c in cand if c[0] >= self.iou_thr), reverse=True)
+
+        # 2. MATCH: Hungarian, each track/detection used at most once
         mt, md = set(), set()
-        for _, ti, di in cand:
-            if ti in mt or di in md:
-                continue
+        for ti, di in self._match(preds, dets):
             mt.add(ti)
             md.add(di)
             t = self.tracks[ti]
+            
             if t.misses > 0:
                 self.recoveries += 1        # track survived a gap and was re-found
             t.kf.update(dets[di]["box"])    # 3a. UPDATE: correct prediction with detection
